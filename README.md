@@ -3,6 +3,15 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/ouqiang/gocron/blob/master/LICENSE)
 [![Release](https://img.shields.io/github/release/ouqiang/gocron.svg?label=Release)](https://github.com/ouqiang/gocron/releases)
 
+# fork有话说-黑脸怪：
+forked from [ouqiang/gocron](https://github.com/ouqiang/gocron/)  
+原项目不更新了 http任务不支持自定义headers  然后我更新了一下设置自定义headers
+![image](https://user-images.githubusercontent.com/41224971/155835318-1aa8b137-4510-4309-994c-31752f2ca653.png)
+ internal/service/task.go  
+ internal/modules/httpclient  
+ internal/modules/notify  
+修改了这几个的文件，可以对比一下
+
 # 项目简介
 使用Go语言开发的轻量级定时任务集中调度和管理系统, 用于替代Linux-crontab [查看文档](https://github.com/ouqiang/gocron/wiki)
 
