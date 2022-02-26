@@ -37,7 +37,7 @@ func (webHook *WebHook) send(msg Message, url string) {
 	maxTimes := 3
 	i := 0
 	for i < maxTimes {
-		resp := httpclient.PostJson(url, content, timeout)
+		resp := httpclient.PostJson(url, content, timeout, nil)
 		if resp.StatusCode == 200 {
 			break
 		}
