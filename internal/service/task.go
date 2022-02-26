@@ -220,16 +220,36 @@ func (h *HTTPHandler) Run(taskModel models.Task, taskUniqueId int64) (result str
 		taskModel.Timeout = HttpExecTimeout
 	}
 	var resp httpclient.ResponseWrapper
+
+	//开始增加headers解析
+	//
+	//
+	urls := taskModel.Command
+	var headres_array = []string{}
+	s2 := strings.Split(urls, "\nheaders=")
+	url := s2[0]
+	if len(s2) > 1 {
+		h_s := strings.Replace(s2[1], "{\n", "", 1)
+		h_s = strings.Replace(h_s, "}", "", 1)
+		//fmt.Println(h)
+		headres_array = strings.Split(h_s, "\n")
+		//headres_array的最后结果就是这样的["User-Agent":"test" "test2":"test3"]
+	}
+	//
+	//
+	//结束headers解析
 	if taskModel.HttpMethod == models.TaskHTTPMethodGet {
-		resp = httpclient.Get(taskModel.Command, taskModel.Timeout)
+		//resp = httpclient.Get(taskModel.Command, taskModel.Timeout)
+		resp = httpclient.Get(url, taskModel.Timeout, headres_array)
 	} else {
-		urlFields := strings.Split(taskModel.Command, "?")
+		//urlFields := strings.Split(taskModel.Command, "?")
+		urlFields := strings.Split(url, "?")
 		taskModel.Command = urlFields[0]
 		var params string
 		if len(urlFields) >= 2 {
 			params = urlFields[1]
 		}
-		resp = httpclient.PostParams(taskModel.Command, params, taskModel.Timeout)
+		resp = httpclient.PostParams(url, params, taskModel.Timeout, headres_array)
 	}
 	// 返回状态码非200，均为失败
 	if resp.StatusCode != http.StatusOK {
@@ -456,7 +476,7 @@ func SendNotification(taskModel models.Task, taskResult TaskResult) {
 		"output":           taskResult.Result,
 		"status":           statusName,
 		"task_id":          taskModel.Id,
-		"remark":  			taskModel.Remark,
+		"remark":           taskModel.Remark,
 	}
 	notify.Push(msg)
 }
