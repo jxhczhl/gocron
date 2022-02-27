@@ -229,7 +229,8 @@ func (h *HTTPHandler) Run(taskModel models.Task, taskUniqueId int64) (result str
 	s2 := strings.Split(urls, "\nheaders=")
 	url := s2[0]
 	if len(s2) > 1 {
-		h_s := strings.Replace(s2[1], "{\n", "", 1)
+		h_s := strings.Replace(s2[1], "{", "", 1)
+		h_s = strings.Replace(h_s, "\n", "", -1)
 		h_s = strings.Replace(h_s, "}", "", 1)
 		//fmt.Println(h)
 		headres_array = strings.Split(h_s, "\n")
