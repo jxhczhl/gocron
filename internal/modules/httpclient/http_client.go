@@ -50,7 +50,6 @@ func PostJson(url string, body string, timeout int, headers []string) ResponseWr
 
 //多了个传参headers []string
 func request(req *http.Request, timeout int, headers []string) ResponseWrapper {
-	fmt.Println("进来了request")
 	wrapper := ResponseWrapper{StatusCode: 0, Body: "", Header: make(http.Header)}
 	client := &http.Client{}
 	if timeout > 0 {
