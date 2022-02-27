@@ -5,12 +5,17 @@
 
 # fork有话说-黑脸怪：
 forked from [ouqiang/gocron](https://github.com/ouqiang/gocron/)  
-原项目不更新了 http任务不支持自定义headers  然后我更新了一下设置自定义headers
+原项目不更新了 http任务不支持自定义headers和命令有256个字节的限制。 然后我更新了一下  
+1.设置自定义headers  
 ![image](https://user-images.githubusercontent.com/41224971/155835318-1aa8b137-4510-4309-994c-31752f2ca653.png)
  internal/service/task.go  
  internal/modules/httpclient  
  internal/modules/notify  
-修改了这几个的文件，可以对比一下
+修改了这几个的文件，可以对比一下  
+2.修改256字节限制  
+ 2.1 设置数据库task和task_log表里面的Command字段长度为自己想要的  
+ 2.2 internal/models/task.go  Command字段长度为自己想要的  
+ 2.3 internal/routers/task/task.go  Command字段长度为自己想要的  
 
 # 项目简介
 使用Go语言开发的轻量级定时任务集中调度和管理系统, 用于替代Linux-crontab [查看文档](https://github.com/ouqiang/gocron/wiki)
