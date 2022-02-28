@@ -79,8 +79,10 @@ func setRequestHeader(req *http.Request, headers []string) {
 	//增加了
 	for _, value := range headers {
 		value = strings.Replace(value, "\"", "", -1)
+		value = strings.Replace(value, " ", "", -1)
 		value = strings.Replace(value, ",", "", -1)
 		headers_value := strings.Split(value, ":")
+		//大于等于2说明有多个冒号 比如referer:https://www.baidu.com
 		if len(headers_value) >= 2 {
 			var v string
 			v = headers_value[1] //0是key
@@ -89,7 +91,11 @@ func setRequestHeader(req *http.Request, headers []string) {
 			}
 			req.Header.Set(headers_value[0], v)
 		} else if len(headers_value) > 1 {
-			req.Header.Set(headers_value[0], headers_value[1])
+			if headers_value[0] == "host" {
+				req.Host = headers_value[1]
+			} else {
+				req.Header.Set(headers_value[0], headers_value[1])
+			}
 		}
 	}
 	//增加结束
