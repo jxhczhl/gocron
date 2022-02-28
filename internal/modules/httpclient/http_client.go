@@ -81,7 +81,14 @@ func setRequestHeader(req *http.Request, headers []string) {
 		value = strings.Replace(value, "\"", "", -1)
 		value = strings.Replace(value, ",", "", -1)
 		headers_value := strings.Split(value, ":")
-		if len(headers_value) > 1 {
+		if len(headers_value) >= 2 {
+			var v string
+			v = headers_value[1] //0是key
+			for i := 2; i < len(headers_value); i++ {
+				v = v + ":" + headers_value[i]
+			}
+			req.Header.Set(headers_value[0], v)
+		} else if len(headers_value) > 1 {
 			req.Header.Set(headers_value[0], headers_value[1])
 		}
 	}
